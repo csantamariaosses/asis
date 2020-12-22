@@ -654,24 +654,18 @@ class AdminController extends Controller
         $rut = $request->rut;
         $nombre = $request->nombre;
         $email = $request->email;
-        $password = md5($request->password);
+        $password = $request->password;
         $fonoContacto = $request->fonoContacto;
         $tipo = $request->tipo;
         $estadoUsuario = $request->estadoUsuario;
 
-        /*echo "<br>id:".$id;
-        echo "<br>nombre:".$nombre;
-        echo "<br>image:".$image;
-        echo "<br>precio:".$precio;
-        */
-        
         
         $rutnumero = substr($rut,0,strlen($rut)-2);
         $digito    = substr($rut,-1);
-        //echo "<br>rutnumero:".$rutnumero. " dv:".$digito;
+     
          
         $dv_ = $this->dv($rutnumero);
-         //echo "<br>dv_:".$dv_;
+    
          
         if( strcmp( strtoupper($digito), strtoupper($dv_) ) != 0   ) {
              \Session::flash('flash-message-warning',"El rut ingreasdo es incorrecto, favor verificar y reintentarlo .. !!"); 
@@ -693,21 +687,43 @@ class AdminController extends Controller
         
         
         $status = false;
-        try {
-        \DB::table('usuarios') 
-                 ->where('id', $id) 
-                 ->update( [ 'nombre' => $nombre,
-                             'email' => $email,
-                             'password' => $password,
-                             'fonoContacto' => $fonoContacto, 
-                             'rut' => $rut,
-                             'tipo' => $tipo,
-                             'estado' => $estadoUsuario,
-                             'updated_at' => date('Y-m-d G:i:s')]);
-             $status = true;
-        } catch( Exception $ex ) {
-             $status = false;
+        if( empty($request->password)) {
+            // Actualiza sin password
+             try {
+            \DB::table('usuarios') 
+                     ->where('id', $id) 
+                     ->update( [ 'nombre' => $nombre,
+                                 'email' => $email,
+                                 'fonoContacto' => $fonoContacto, 
+                                 'rut' => $rut,
+                                 'tipo' => $tipo,
+                                 'estado' => $estadoUsuario,
+                                 'updated_at' => date('Y-m-d G:i:s')]);
+            $status = true;
+            } catch( Exception $ex ) {
+                 $status = false;
+            }
+            
+        } else  {
+            echo "nueva pass:". $password;
+             try {
+            \DB::table('usuarios') 
+                     ->where('id', $id) 
+                     ->update( [ 'nombre' => $nombre,
+                                 'email' => $email,
+                                 'password' => md5($password),
+                                 'fonoContacto' => $fonoContacto, 
+                                 'rut' => $rut,
+                                 'tipo' => $tipo,
+                                 'estado' => $estadoUsuario,
+                                 'updated_at' => date('Y-m-d G:i:s')]);
+                 $status = true;
+            } catch( Exception $ex ) {
+                 $status = false;
+            }
         }
+  
+       
 
         if( $status ) {
           $usuario = DB::table('usuarios')
@@ -936,6 +952,8 @@ class AdminController extends Controller
         $nombre  = $request->input("nombre");
         $descripcion  = $request->input("descripcion");
         $precio  = $request->input("precio");
+        $stock  = $request->input("stock");
+        $visible  = $request->input("visible");
         $image   = $request->input("image");
 
         
@@ -958,6 +976,8 @@ class AdminController extends Controller
           $contacto->descripcion=$descripcion;
           $contacto->precio=$precio;
           $contacto->image=$image;
+          $contacto->stock = $stock;
+          $contacto->visible=$visible;
           $contacto->save();
 
           \Session::flash('flash-message-success','Producto ha sido cargado en forma exitosa... !!'); 
@@ -1015,6 +1035,8 @@ class AdminController extends Controller
         $descripcion = $request->descripcion;
         $image = $request->image;
         $precio = $request->precio;
+        $stock = $request->stock;
+        $visible = $request->visible;
 
         /*echo "<br>id:".$id;
         echo "<br>nombre:".$nombre;
@@ -1030,6 +1052,8 @@ class AdminController extends Controller
                              'descripcion' => $descripcion,
                              'image' => $image, 
                              'precio' => $precio,
+                             'stock' => $stock,
+                             'visible' => $visible,
                              'updated_at' => date('Y-m-d G:i:s')]);
       
         $parametros = DB::table('parametros')->get();
@@ -3508,7 +3532,7 @@ class AdminController extends Controller
     public function adminCarritoPedidosListar(){
         $parametros = DB::table('parametros')->get();
         $items = DB::table('menus')->get();
-        $registros  = DB::table('carritos')->get();
+        $registros  = DB::table('carritos')->orderBy('created_at', 'desc')->get();
         
         return view('admin.adminCarritoPedidos',compact('registros','parametros','items'));
     }
@@ -3618,5 +3642,15 @@ class AdminController extends Controller
         return view('admin.adminCarritoPedidosEditar',compact('infoCabecera','carritoCotizacion','carritoSeguimiento','parametros','items'));
         
         
+    }
+    
+    
+    public function adminContactosListar(){
+        $parametros = DB::table('parametros')->get();
+        $items = DB::table('menus')->get();
+        $registros = DB::table('contactos')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+        return view('admin.adminContactos',compact('registros','parametros','items'));
     }
 }

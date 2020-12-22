@@ -94,7 +94,7 @@
               <tr><th><td>Nombre</td></th><td><input type="text" name="nombre" id="nombre" value="{{$user->nombre}}" required size="40"></td></tr>
              
               <tr><th><td>Email</td></th><td><input type="text" name="email" id="email" value="{{$user->email}}" required size="40"></td></tr>
-              <tr><th><td>Pass</td></th><td><input type="password" name="pasword" id="password" value="" disabled size="40">&nbsp;<input type="checkbox" name="cambiaPass" id="cambiaPass">cambio password</td></tr
+              <tr><th><td>Pass</td></th><td><input type="password" name="password" id="password" value="" disabled size="40">&nbsp;<input type="checkbox" name="cambiaPass" id="cambiaPass">cambio password</td></tr
               <tr><th><td>Fono Contacto</td></th><td><input type="text" name="fonoContacto" id="fonoContacto" value="{{$user->fonoContacto}}" required></td></tr>              
               <tr><th><td>Tipo</td></th><td>
 

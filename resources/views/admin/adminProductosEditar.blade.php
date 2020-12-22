@@ -137,7 +137,37 @@
               <tr><th><td>Descripcion</td></th><td><textarea name="descripcion" id="descripcion" rows="5" cols="50">{{$prod->descripcion}}</textarea></td></tr>
               <tr><th><td>Precio</td></th><td><input type="number" name="precio" id="precio" value="{{$prod->precio}}" required></td></tr>
               <tr><th><td>image</td></th><td><input type="text" name="image" id="image" value="{{$archImage}}" required disabled size="40"></td></tr>
-
+              <tr><th><td>Visible</td></th><td>
+                  {{$prod->visible}}
+                  <select name="visible">
+                      
+                      @if( $prod->visible == 1 ) {
+                      <option value="1" selected>Visible</option>
+                      <option value="0">No Visible</option>
+                      @endif
+                      @if( $prod->visible == 0 ) {
+                      <option value="1">Visible</option>
+                      <option value="0" selected>No Visible</option>
+                      @endif
+                      
+                  </select>
+                  </td>
+               </tr>
+                <tr><th><td>Stock</td></th><td>
+                    {{$prod->stock}}
+                  <select name="stock">
+                      @if( $prod->stock == 1 ) {
+                      <option value="1" selected>Con Stock</option>
+                      <option value="0">Sin Stock</option>
+                      @endif
+                      @if( $prod->stock == 0 ) {
+                      <option value="1">Con Stock</option>
+                      <option value="0" selected>Sin Stock</option>
+                      @endif
+                      
+                  </select>
+                  </td>
+               </tr>
                <tr><th><td></td></th><td><input type="submit" name="btnSubmit" value="Actualizar"></td></tr>
 
           </table>

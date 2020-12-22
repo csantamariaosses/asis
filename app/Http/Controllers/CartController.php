@@ -193,6 +193,8 @@ class CartController extends Controller
         $fonoContacto  = session('fonoContacto');
         $message = $request->Input('message');
         
+        //echo "message:" . $message."*";
+        //exit();
         
         $codPedido = rand();
         $emailCC = "cssantam@gmail.com";
@@ -200,6 +202,7 @@ class CartController extends Controller
         $total = 0;
         $carrito = \Session::get('carrito');
         
+        // LLena Carrito Detalle
         try {
         foreach( $carrito as $registro) {
            $total+=$registro->cantidad*$registro->precio;    
@@ -222,6 +225,7 @@ class CartController extends Controller
             return view("carrito.carritoPedidoEnviadoNoOk",compact('parametros','items'));
         }
         
+        // Crea Fila en Carrito PPal
         $now = date('d-m-Y H:i:s'); 
         try {
         $tblCarrito = new Carro;
@@ -231,7 +235,7 @@ class CartController extends Controller
         $tblCarrito->email = $request->Input('email');;
         $tblCarrito->fonoContacto = $request->Input('fonoContacto');
         $tblCarrito->total = $total;
-        $tblCarrito->observaciones = $request->Input('observaciones');
+        $tblCarrito->observaciones = $message;
         $tblCarrito->estado = "pedido";
         $tblCarrito->fecha = $now;
         $tblCarrito->save();
@@ -241,29 +245,7 @@ class CartController extends Controller
             return view("carrito.carritoPedidoEnviadoNoOk",compact('parametros','items'));
         } 
         
-        //echo "<br>OK";
-        
-        /*
-        foreach( $carrito as $registro) {
-          /*echo "<br>idProducto". $registro->idProducto;
-          echo "<br>nombre". $registro->nombre;
-          echo "<br>precio". $registro->precio;
-          echo "<br>cantidad". $registro->cantidad;
-          echo "<br>subtot". $registro->cantidad*$registro->precio;
-          
-          
-           $tblCarritoDetalle = new CarroDetalle;
-           $tblCarritoDetalle->codigo = $codPedido;
-           $tblCarritoDetalle->codProducto  = $registro->idProducto;
-           $tblCarritoDetalle->producto  = $registro->nombre;
-           $tblCarritoDetalle->precio  = $registro->precio;
-           $tblCarritoDetalle->cantidad  = $registro->cantidad;
-           $tblCarritoDetalle->subTotal  = $registro->cantidad*$registro->precio;
-           $tblCarritoDetalle->estado = "pedido";
-           $tblCarritoDetalle->save();
-           
-        }
-      */
+        // Crear correo
         $body  = "<br><h3>Asis SpA</h3>";
         $body .= "<h4>Solicitud de Pedido</h4>";
         $body .= "<table>";
@@ -299,7 +281,7 @@ class CartController extends Controller
          // Envia email  - asisfba@gmail.com
         $subject = "Pedido desde Portal Asis";
         //$emailDestino = "asisfba@gmail.com";
-        $emailDestino = "cssantam@gmail.com";
+        $emailDestino = "asisfba@gmail.com";
         $emailCC = "cssantam@gmail.com";
         if( enviarEmail( $subject, $emailDestino, $emailCC, $body)) {
             \Session::forget('carrito');
@@ -316,11 +298,7 @@ class CartController extends Controller
                          ->get();
             return view("carrito.carritoPedidoEnviadoNoOk",compact('parametros','items'));
         }
-        /*
-        $parametros = DB::table('parametros')->get();
-        $items = DB::table('menus')->get();
-        return view("carrito.carritoPedidoEnviado",compact('parametros','items','codPedido'));
-        */
+        
     }
 
 

@@ -77,12 +77,16 @@
                      <input type="hidden" name="hdIdProducto" value="{{$dato->idProducto}}">
                      <input type="hidden" name="hdNombre" value="{{$dato->nombre}}">
                      <input type="hidden" name="hdPrecio" value="{{$dato->precio}}">
+                    
   
                     <a href="#" class="btn btn-default" role="button" data-toggle="modal" data-target="#miModal{{$dato->id}}"><i class="fa fa-eye" aria-hidden="true"></i>  Ver...</a>
                  
                     <!--<button type="button" class="btn btn-default"><i class="fa fa-shopping-cart"></i> Agregar al carrito...</button>-->
-                    <a href="{{route('cart-add',$dato->id)}}" class="btn btn-default">Agregar al carrito</a>
-
+                    @if( $dato->stock == 1 )
+                      <a href="{{route('cart-add',$dato->id)}}" class="btn btn-default">Agregar al carrito</a>
+                    @else
+                      <a href="{{route('cart-add',$dato->id)}}" class="btn btn-default" disabled>Agregar al carrito</a>
+                    @endif
 
                                        
                     

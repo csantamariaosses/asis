@@ -15,6 +15,7 @@ class ProductosController extends Controller
         //echo "<br>sesion(submenu):".session()->get('subMenu');
     	$productos = DB::table('productos')
                          ->where('subMenu', '=',session()->get('subMenu'))
+                         ->where('visible','=',1)
                          ->get();
     	//print_r( $productos);
     	$parametros = DB::table('parametros')->get();

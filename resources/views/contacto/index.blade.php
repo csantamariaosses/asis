@@ -16,7 +16,7 @@
             <div class="container">
             <div class="row">
                <div class="col-sm-7 text-center">
-              <legend class="text-center header"><span style="color:#6E6E6E">Contáctenos</legend>
+              <legend class="text-center header"><span style="color:#6E6E6E">Contáctenos.</legend>
               </div>
             </div>
 

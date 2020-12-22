@@ -113,7 +113,7 @@
             {{ csrf_field() }}
             <div class="row">
                <div class="col-sm-7 text-center">
-              <legend class="text-center header"><span style="color:#6E6E6E">Informaci&oacute;n de Contacto</legend>
+              <legend class="text-center header"><span style="color:#6E6E6E">Informaci&oacute;n de Contacto.</legend>
               </div>
             </div>
 
@@ -149,7 +149,7 @@
                 <div class="col-sm-7 text-center">  
                     <div class="input-group margin-bottom-sm">
                       <span class="input-group-addon"><i class="fa fa-pencil-square-o fa-fw bigicon"></i></span>
-                       <textarea class="form-control" id="message" name="observaciones" placeholder="Ingrese su mensaje aqui." rows="5" cols="35" required></textarea>
+                       <textarea class="form-control" id="message" name="message" placeholder="Ingrese su mensaje aqui..." rows="5" cols="35" required></textarea>
                     </div>
                 </div>
             </div>

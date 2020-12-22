@@ -357,7 +357,10 @@ Route::post('/admin/carritopedidos/actualizaestado',[
     'uses' => 'AdminController@adminCarritoPedidoActualizaEstado'     
 ]);
 
-
+Route::get('/admin/contactos',[
+    'as'   => 'admin-contactos-listar',
+    'uses' => 'AdminController@adminContactosListar'     
+]);
 
 /*
 Route::post('/admin/cotizaciones/save',[

@@ -128,6 +128,21 @@
               <tr><th><td>Precio</td></th><td><input type="number" name="precio" id="precio" value="<?php //echo $precio?>" required></td></tr>
               <tr><th><td>image</td></th><td><input type="text" name="image" id="image" value="{{$archImage}}" required disabled size="40"></td></tr>
 
+
+              <tr><th><td>Visible</td></th><td>
+                  <select name="visible">
+                      <option value="1">Visible</option>
+                      <option value="0">No Visible</option>
+                  </select>
+                  </td>
+               </tr>
+                <tr><th><td>Stock</td></th><td>
+                  <select name="stock">
+                      <option value="1">Con Stock</option>
+                      <option value="0">Sin Stock</option>
+                  </select>
+                  </td>
+               </tr>
                <tr><th><td></td></th><td><input type="submit" name="btnSubmit" value="Agregar"></td></tr>
 
           </table>
